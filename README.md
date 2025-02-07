@@ -1,5 +1,5 @@
 
-**Forked features**
+### Key fixes :
 
 - Every symbols have been prefixed with either "Raylib" (functions) or "RAYLIB_" (constants) to avoid conflicts with symbols of the Windows SDK (it was previously impossible to include raylib.h and windows.h at the same time).
 
