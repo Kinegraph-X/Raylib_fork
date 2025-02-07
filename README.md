@@ -1,4 +1,21 @@
-<img align="left" style="width:260px" src="https://github.com/raysan5/raylib/blob/master/logo/raylib_logo_animation.gif" width="288px">
+
+**Forked features**
+
+- Every symbols have been prefixed with either "Raylib" (functions) or "RAYLIB_" (constants) to avoid conflicts with symbols of the Windows SDK (it was previously impossible to include raylib.h and windows.h at the same time).
+
+- Method added (only for GLFW platform under Windows): 
+
+```cpp
+bool RaylibHasMouseButtonBeenDown(int button);
+```
+
+It traverses a queue holding all platform events received between 2 frames, and then returns, thus ensuring no mouseDown/mouseUp couple of events happen between two frames -> it would miss the mouseDown, and IsMouseButtonReleased() would also fail.
+
+The same behavior has been added to RaylibIsMouseButtonReleased().
+
+- If the previous state was 1 ("PRESS"), we no more assign the currentMouseButtonState to previousMouseButtonState on each call to "RaylibPollInputEvents(),  (it was another cause of failure for RaylibIsMouseButtonReleased();
+
+- We no more call RaylibPollInputEvents() in RaylibEndDrawing() : that was preventing the lib from being used for purposes where we want to redraw partial surfaces of the window, like for a video player : UI and video have different refresh rates. (so, now, you should explicitely call RaylibPollInputEvents() before handling UI interactions, state changes, refresh, and so on...
 
 **raylib is a simple and easy-to-use library to enjoy videogames programming.**
 
