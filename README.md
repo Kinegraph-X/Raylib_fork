@@ -13,6 +13,14 @@ It traverses a queue holding all platform events received between 2 frames, and 
 
 The same behavior has been added to RaylibIsMouseButtonReleased().
 
+So you must now call : 
+
+```cpp
+void RaylibClearEventQueue();
+```
+
+after having consumed the events and updated the state of your app.
+
 - If the previous state was 1 ("PRESS"), we no more assign the currentMouseButtonState to previousMouseButtonState on each call to "RaylibPollInputEvents(),  (it was another cause of failure for RaylibIsMouseButtonReleased();
 
 - We no more call RaylibPollInputEvents() in RaylibEndDrawing() : that was preventing the lib from being used for purposes where we want to redraw partial surfaces of the window, like for a video player : UI and video have different refresh rates. (so, now, you should explicitely call RaylibPollInputEvents() before handling UI interactions, state changes, refresh, and so on...
